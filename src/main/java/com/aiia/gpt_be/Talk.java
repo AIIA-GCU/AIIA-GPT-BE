@@ -40,7 +40,7 @@ public class Talk extends BaseEntity{
                 .build();
     }
 
-    public QuestionReply toQuestionReply(){
+    public QuestionReply toReply(){
         return QuestionReply.of(question, answer);
     }
 }
