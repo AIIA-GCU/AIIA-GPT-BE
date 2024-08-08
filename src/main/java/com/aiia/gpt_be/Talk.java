@@ -39,4 +39,8 @@ public class Talk extends BaseEntity{
                 .talkedTime(talkedTime)
                 .build();
     }
+
+    public QuestionReply toQuestionReply(){
+        return QuestionReply.of(question, answer);
+    }
 }
