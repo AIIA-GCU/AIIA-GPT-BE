@@ -22,4 +22,8 @@ public class QuestionRequest {
                 .question(question)
                 .build();
     }
+
+    public QuestionServiceRequest to(){
+        return QuestionServiceRequest.of(question);
+    }
 }
