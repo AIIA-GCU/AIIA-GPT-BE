@@ -15,8 +15,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Transactional(readOnly = true)
 public class QuestionService {
 
-    private static final String URI = "http://127.0.0.1:5000/analyze";
-    private final RestClient restClient;
+    private static final String URI = "http://127.0.0.1:5000/request";
+    private final RestClient restClient = RestClient.create();
     private final TalkRepository talkRepository;
 
     @Transactional
@@ -27,6 +27,7 @@ public class QuestionService {
     }
 
     private String getAnswerFromGPT(QuestionServiceRequest request) {
+
         return restClient.post()
                 .uri(URI)
                 .contentType(APPLICATION_JSON)
