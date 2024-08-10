@@ -1,10 +1,7 @@
 package com.aiia.gpt_be;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -22,7 +19,11 @@ public class Talk extends BaseEntity{
     private Long id;
 
     private String question;
+
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String answer;
+
     private LocalDateTime talkedTime;
 
     @Builder
