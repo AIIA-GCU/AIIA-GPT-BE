@@ -1,4 +1,4 @@
-package com.aiia.gpt_be;
+package com.aiia.gpt_be.question.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.Builder;

@@ -1,5 +1,7 @@
-package com.aiia.gpt_be;
+package com.aiia.gpt_be.question;
 
+import com.aiia.gpt_be.question.dto.QuestionReply;
+import com.aiia.gpt_be.question.dto.QuestionServiceRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
@@ -17,14 +19,14 @@ public class QuestionService {
 
     private static final String URI = "http://127.0.0.1:5000/request";
     private final RestClient restClient = RestClient.create();
-    private final TalkRepository talkRepository;
+    private final QuestionHistoryRepository questionHistoryRepository;
 
     @Transactional
     public QuestionReply answer(QuestionServiceRequest request, LocalDateTime now) {
 //        Talk talk = Talk.of(request.getQuestion(), getAnswerFromGPT(request), now);
-        Talk talk = Talk.of(request.getQuestion(), request.getQuestion(), now);
-        Talk savedTalk = talkRepository.save(talk);
-        return savedTalk.toReply();
+        QuestionHistory questionHistory = QuestionHistory.of(request.getQuestion(), request.getQuestion(), now);
+        QuestionHistory savedQuestionHistory = questionHistoryRepository.save(questionHistory);
+        return savedQuestionHistory.toReply();
     }
 
     private String getAnswerFromGPT(QuestionServiceRequest request) {

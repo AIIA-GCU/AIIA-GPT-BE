@@ -1,6 +1,8 @@
-package com.aiia.gpt_be;
+package com.aiia.gpt_be.question;
 
 
+import com.aiia.gpt_be.BaseEntity;
+import com.aiia.gpt_be.question.dto.QuestionReply;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -12,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Talk extends BaseEntity{
+public class QuestionHistory extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,14 +29,14 @@ public class Talk extends BaseEntity{
     private LocalDateTime talkedTime;
 
     @Builder
-    private Talk(String question, String answer, LocalDateTime talkedTime) {
+    private QuestionHistory(String question, String answer, LocalDateTime talkedTime) {
         this.question = question;
         this.answer = answer;
         this.talkedTime = talkedTime;
     }
 
-    public static Talk of(String question, String answer, LocalDateTime talkedTime) {
-        return Talk.builder()
+    public static QuestionHistory of(String question, String answer, LocalDateTime talkedTime) {
+        return QuestionHistory.builder()
                 .question(question)
                 .answer(answer)
                 .talkedTime(talkedTime)

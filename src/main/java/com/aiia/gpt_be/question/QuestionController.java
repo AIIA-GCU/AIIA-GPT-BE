@@ -1,5 +1,7 @@
-package com.aiia.gpt_be;
+package com.aiia.gpt_be.question;
 
+import com.aiia.gpt_be.question.dto.QuestionReply;
+import com.aiia.gpt_be.question.dto.QuestionRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

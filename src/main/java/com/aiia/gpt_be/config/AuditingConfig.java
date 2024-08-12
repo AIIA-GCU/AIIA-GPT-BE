@@ -1,4 +1,4 @@
-package com.aiia.gpt_be;
+package com.aiia.gpt_be.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
