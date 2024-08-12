@@ -40,6 +40,11 @@ dependencies {
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
+	// recaptcha
+	implementation 'net.tanesha.recaptcha4j:recaptcha4j:0.0.7'
+	implementation 'javax.json:javax.json-api:1.1.2'
+	implementation 'org.glassfish:javax.json:1.1'
+
 	// test
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-testcontainers'
