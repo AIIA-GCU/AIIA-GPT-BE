@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>GPT Page</title>
+</head>
+<body>
+   <h1>Ask a Question</h1>
+   <form th:action="@{/ask}" method="post">
+       <label for="question">Question:</label>
+       <input type="text" id="question" name="question" required>
+       <button type="submit" id="submit-btn">Submit</button>
+   </form>
+</body>
+
+<script>
+    // const submitBtn = document.querySelector("#submit-btn");
+    // submitBtn.addEventListener("click", async () => {
+    //     const questionRequest = {
+    //         question : document.querySelector("#question").value
+    //     }
+    //
+    //     const response = await fetch("/ask", {
+    //         method : "post",
+    //         body : JSON.stringify(questionRequest),
+    //         headers : {
+    //             "Content-type" : "application/json"
+    //         }
+    //     })
+    //
+    //     if(response.ok) {
+    //         const rootElement = document.documentElement;
+    //         while(rootElement.firstChild){
+    //             rootElement.removeChild(rootElement.firstChild);
+    //         }
+    //         document.documentElement.innerHTML = '';
+    //         document.documentElement.innerHTML = response.body;
+    //     }
+    // });
+</script>
+</html>
