@@ -1,7 +1,7 @@
 package com.aiia.gpt_be.question;
 
 
-import com.aiia.gpt_be.BaseEntity;
+import com.aiia.gpt_be.api.BaseEntity;
 import com.aiia.gpt_be.question.dto.QuestionReply;
 import jakarta.persistence.*;
 import lombok.AccessLevel;

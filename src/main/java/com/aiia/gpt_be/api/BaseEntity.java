@@ -1,4 +1,4 @@
-package com.aiia.gpt_be;
+package com.aiia.gpt_be.api;
 
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
