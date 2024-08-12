@@ -2,14 +2,13 @@ package com.aiia.gpt_be;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 public class QuestionController {
 
@@ -21,14 +20,14 @@ public class QuestionController {
     }
 
     @PostMapping("/ask")
-    public QuestionReply answer(@Valid @RequestBody QuestionRequest questionRequest) {
-        return questionService.answer(questionRequest.to(), LocalDateTime.now());
+    public String answer(@Valid @ModelAttribute("question") QuestionRequest questionRequest, Model model) {
+        QuestionReply reply = questionService.answer(questionRequest.to(), LocalDateTime.now());
+        model.addAttribute("reply", reply);
+        return "reply";
     }
 
 //    @PostMapping("/ask")
-//    public String answer(@Valid @RequestBody QuestionRequest questionRequest, Model model) {
-//        QuestionReply reply = questionService.answer(questionRequest.to(), LocalDateTime.now());
-//        model.addAttribute("reply", reply);
-//        return "redirect:/";
+//    public QuestionReply answer(@Valid @RequestBody QuestionRequest questionRequest) {
+//        return questionService.answer(questionRequest.to(), LocalDateTime.now());
 //    }
 }
