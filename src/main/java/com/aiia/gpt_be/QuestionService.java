@@ -21,7 +21,8 @@ public class QuestionService {
 
     @Transactional
     public QuestionReply answer(QuestionServiceRequest request, LocalDateTime now) {
-        Talk talk = Talk.of(request.getQuestion(), getAnswerFromGPT(request), now);
+//        Talk talk = Talk.of(request.getQuestion(), getAnswerFromGPT(request), now);
+        Talk talk = Talk.of(request.getQuestion(), request.getQuestion(), now);
         Talk savedTalk = talkRepository.save(talk);
         return savedTalk.toReply();
     }
