@@ -23,14 +23,12 @@ public class QuestionService {
 
     @Transactional
     public QuestionReply answer(QuestionServiceRequest request, LocalDateTime now) {
-//        Talk talk = Talk.of(request.getQuestion(), getAnswerFromGPT(request), now);
-        QuestionHistory questionHistory = QuestionHistory.of(request.getQuestion(), request.getQuestion(), now);
+        QuestionHistory questionHistory = QuestionHistory.of(request.getQuestion(), getAnswerFromGPT(request), now);
         QuestionHistory savedQuestionHistory = questionHistoryRepository.save(questionHistory);
         return savedQuestionHistory.toReply();
     }
 
     private String getAnswerFromGPT(QuestionServiceRequest request) {
-
         return restClient.post()
                 .uri(URI)
                 .contentType(APPLICATION_JSON)
