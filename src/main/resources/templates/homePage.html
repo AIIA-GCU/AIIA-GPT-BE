@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>GPT Page</title>
+    <script src="https://www.google.com/recaptcha/api.js" async defer/>
 </head>
 <body>
    <h1>Ask a Question</h1>
@@ -10,6 +11,7 @@
        <label for="question">Question:</label>
        <input type="text" id="question" name="question" required>
        <button type="submit" id="submit-btn">Submit</button>
+       <div class="g-recaptcha" th:data-sitekey="${@environment.getProperty('recaptcha.site.key')}"></div>
    </form>
 </body>
 
