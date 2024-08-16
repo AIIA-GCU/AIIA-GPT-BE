@@ -3,6 +3,7 @@ package com.aiia.gpt_be.question;
 import com.aiia.gpt_be.question.dto.QuestionReply;
 import com.aiia.gpt_be.question.dto.QuestionServiceRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 @Transactional(readOnly = true)
 public class QuestionService {
 
-    private static final String URI = "http://127.0.0.1:5000/request";
+    @Value("${flask.domain}")
+    private String URI;
     private final RestClient restClient = RestClient.create();
     private final QuestionHistoryRepository questionHistoryRepository;
 
@@ -30,7 +32,7 @@ public class QuestionService {
 
     private String getAnswerFromGPT(QuestionServiceRequest request) {
         return restClient.post()
-                .uri(URI)
+                .uri(URI+":5000/request")
                 .contentType(APPLICATION_JSON)
                 .body(request)
                 .retrieve()
