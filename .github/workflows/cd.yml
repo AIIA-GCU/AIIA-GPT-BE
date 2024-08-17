@@ -60,9 +60,9 @@ jobs:
             docker rm -f gpt-be
             docker image rm ${{ secrets.DOCKER_REPO }} -f
             docker pull ${{ secrets.DOCKER_REPO }}
-            docker run -d --name gpt-be --network host 
-            --env DB_CONNECTION=${{secrets.DB_CONNECTION}} 
-            --env DB_NAME=${{secrets.DB_NAME}} 
-            --env GPT_DB_USERNAME=${{secrets.GPT_DB_USERNAME}} 
-            --env GPT_DB_PASSWORD=${{secrets.GPT_DB_PASSWORD}}
-            --env FLASK_DOMAIN=${{secrets.FLASK_DOMAIN}} ${{secrets.DOCKER_REPO }} --restart on-failure
+            docker run -d --name gpt-be --network host \
+            --env DB_CONNECTION=${{secrets.DB_CONNECTION}} \ 
+            --env DB_NAME=${{secrets.DB_NAME}} \
+            --env GPT_DB_USERNAME=${{secrets.GPT_DB_USERNAME}} \
+            --env GPT_DB_PASSWORD=${{secrets.GPT_DB_PASSWORD}} \
+            --env FLASK_DOMAIN=${{secrets.FLASK_DOMAIN}} \ ${{secrets.DOCKER_REPO }} --restart on-failure
