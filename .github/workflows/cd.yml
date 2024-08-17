@@ -65,4 +65,4 @@ jobs:
             --env DB_NAME=${{secrets.DB_NAME}} 
             --env GPT_DB_USERNAME=${{secrets.GPT_DB_USERNAME}} 
             --env GPT_DB_PASSWORD=${{secrets.GPT_DB_PASSWORD}}
-            --env FLASK_DOMAIN=${{FLASK_DOMAIN}} ${{secrets.DOCKER_REPO }} --restart on-failure
+            --env FLASK_DOMAIN=${{secrets.FLASK_DOMAIN}} ${{secrets.DOCKER_REPO }} --restart on-failure
