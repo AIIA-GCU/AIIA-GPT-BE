@@ -36,7 +36,7 @@ public class PasswordEncoder {
         }
     }
 
-    public boolean checkSamePassword(String encryptedPassword, String requestedPassword) {
-        return encryptedPassword.equals(encrypt(requestedPassword));
+    public boolean checkInvalidPassword(String encryptedPassword, String requestedPassword) {
+        return !encryptedPassword.equals(encrypt(requestedPassword));
     }
 }
