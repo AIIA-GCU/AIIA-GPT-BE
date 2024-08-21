@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class PasswordEncoderTest extends IntegrationTestSupport {
 
@@ -35,10 +34,10 @@ class PasswordEncoderTest extends IntegrationTestSupport {
         String requestedPassword = "password";
 
         // when
-        boolean result = passwordEncoder.checkSamePassword(encryptedPassword, requestedPassword);
+        boolean result = passwordEncoder.checkInvalidPassword(encryptedPassword, requestedPassword);
 
         // then
-        assertThat(result).isTrue();
+        assertThat(result).isFalse();
     }
 
     @DisplayName("두 비밀번호가 다른 지 확인할 수 있다.")
@@ -50,9 +49,9 @@ class PasswordEncoderTest extends IntegrationTestSupport {
         String wrongPassword = "wrong";
 
         // when
-        boolean result = passwordEncoder.checkSamePassword(encryptedPassword, wrongPassword);
+        boolean result = passwordEncoder.checkInvalidPassword(encryptedPassword, wrongPassword);
 
         // then
-        assertThat(result).isFalse();
+        assertThat(result).isTrue();
     }
 }
