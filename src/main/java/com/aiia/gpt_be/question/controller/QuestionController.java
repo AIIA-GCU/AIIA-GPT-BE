@@ -1,5 +1,6 @@
-package com.aiia.gpt_be.question;
+package com.aiia.gpt_be.question.controller;
 
+import com.aiia.gpt_be.question.service.QuestionService;
 import com.aiia.gpt_be.question.dto.QuestionReply;
 import com.aiia.gpt_be.question.dto.QuestionRequest;
 import jakarta.validation.Valid;
@@ -18,18 +19,4 @@ public class QuestionController {
     public QuestionReply answer(@Valid @RequestBody QuestionRequest questionRequest) {
         return questionService.answer(questionRequest.to(), LocalDateTime.now());
     }
-
-//    @GetMapping("/")
-//    public String questionPage(){
-//        return "homePage";
-//    }
-
-//    @PostMapping("/ask")
-//    public String answer(@Valid @ModelAttribute("question") QuestionRequest questionRequest, Model model) {
-//        QuestionReply reply = questionService.answer(questionRequest.to(), LocalDateTime.now());
-//        model.addAttribute("reply", reply);
-//        return "reply";
-//    }
-
-
 }
