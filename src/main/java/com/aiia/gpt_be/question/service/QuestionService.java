@@ -1,5 +1,7 @@
-package com.aiia.gpt_be.question;
+package com.aiia.gpt_be.question.service;
 
+import com.aiia.gpt_be.question.QuestionHistory;
+import com.aiia.gpt_be.question.repository.QuestionHistoryRepository;
 import com.aiia.gpt_be.question.dto.QuestionReply;
 import com.aiia.gpt_be.question.dto.QuestionServiceRequest;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class QuestionService {
 
     @Value("${flask.domain}")
-    private String URI;
+    private String gptUri;
     private final RestClient restClient = RestClient.create();
     private final QuestionHistoryRepository questionHistoryRepository;
 
@@ -32,7 +34,7 @@ public class QuestionService {
 
     private String getAnswerFromGPT(QuestionServiceRequest request) {
         return restClient.post()
-                .uri(URI+":5000/request")
+                .uri(gptUri +":5000/request")
                 .contentType(APPLICATION_JSON)
                 .body(request)
                 .retrieve()
