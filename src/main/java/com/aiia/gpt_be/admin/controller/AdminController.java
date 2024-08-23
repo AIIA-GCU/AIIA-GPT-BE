@@ -17,12 +17,13 @@ import org.springframework.web.bind.annotation.*;
 public class AdminController {
 
     private final AdminService adminService;
+
     private final AdminSessionManager adminSessionManager;
 
-    @GetMapping(value = {"/", "/login"})
+    @GetMapping(value = {"", "/", "/login"})
     public String loginPage(HttpServletRequest request){
         if(adminSessionManager.checkAdminLogin(request)) {
-            return "admin/main";
+            return "redirect:/admin/main";
         }
         return "admin/login";
     }
@@ -32,6 +33,11 @@ public class AdminController {
                         HttpServletRequest servletRequest) {
         Admin admin = adminService.login(loginRequest);
         adminSessionManager.saveAdminInSession(admin, servletRequest);
+        return "redirect:/admin/main";
+    }
+
+    @GetMapping("/main")
+    public String mainPage(){
         return "admin/main";
     }
 
