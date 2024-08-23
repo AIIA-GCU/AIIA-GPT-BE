@@ -2,6 +2,7 @@ package com.aiia.gpt_be.question;
 
 
 import com.aiia.gpt_be.api.BaseEntity;
+import com.aiia.gpt_be.history.dto.HistoryMetaInfo;
 import com.aiia.gpt_be.question.dto.QuestionReplyToUser;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Getter
@@ -45,5 +47,12 @@ public class QuestionHistory extends BaseEntity {
 
     public QuestionReplyToUser toReply(){
         return QuestionReplyToUser.of(question, answer);
+    }
+
+    public HistoryMetaInfo toHistoryMetaInfo(){
+        return HistoryMetaInfo.of(
+                id,
+                question,
+                talkedTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm")));
     }
 }
