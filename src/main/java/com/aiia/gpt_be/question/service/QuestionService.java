@@ -1,7 +1,7 @@
 package com.aiia.gpt_be.question.service;
 
 import com.aiia.gpt_be.question.QuestionHistory;
-import com.aiia.gpt_be.question.repository.QuestionHistoryRepository;
+import com.aiia.gpt_be.question.repository.QuestionRepository;
 import com.aiia.gpt_be.question.dto.QuestionReplyToUser;
 import com.aiia.gpt_be.question.dto.QuestionServiceRequest;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +23,12 @@ public class QuestionService {
     @Value("${flask.domain}")
     private String gptUri;
     private final RestClient restClient = RestClient.create();
-    private final QuestionHistoryRepository questionHistoryRepository;
+    private final QuestionRepository questionRepository;
 
     @Transactional
     public QuestionReplyToUser answer(QuestionServiceRequest request, LocalDateTime now) {
         QuestionHistory questionHistory = QuestionHistory.of(request.getQuestion(), getAnswerFromGPT(request), now);
-        QuestionHistory savedQuestionHistory = questionHistoryRepository.save(questionHistory);
+        QuestionHistory savedQuestionHistory = questionRepository.save(questionHistory);
         return savedQuestionHistory.toReply();
     }
 

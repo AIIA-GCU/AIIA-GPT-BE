@@ -15,16 +15,15 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
-import static org.junit.jupiter.api.Assertions.*;
 
-class QuestionHistoryRepositoryTest extends IntegrationTestSupport {
+class QuestionRepositoryTest extends IntegrationTestSupport {
 
     @Autowired
-    QuestionHistoryRepository questionHistoryRepository;
+    QuestionRepository questionRepository;
 
     @AfterEach
     void tearDown() {
-        questionHistoryRepository.deleteAllInBatch();
+        questionRepository.deleteAllInBatch();
     }
 
     @DisplayName("질문 기록을 페이징해 가져올 수 있다.")
@@ -37,10 +36,10 @@ class QuestionHistoryRepositoryTest extends IntegrationTestSupport {
         QuestionHistory q1 = QuestionHistory.of("question1", "answer1", now);
         QuestionHistory q2 = QuestionHistory.of("question2", "answer2", now.plusDays(1));
         QuestionHistory q3 = QuestionHistory.of("question3", "answer3", now.plusDays(2));
-        questionHistoryRepository.saveAll(List.of(q1, q2, q3));
+        questionRepository.saveAll(List.of(q1, q2, q3));
 
         // when
-        Page<QuestionHistory> pagedResults = questionHistoryRepository.getAllHistories(pageable);
+        Page<QuestionHistory> pagedResults = questionRepository.getAllHistories(pageable);
 
         // then
         long totalCount = pagedResults.getTotalElements();
@@ -65,10 +64,10 @@ class QuestionHistoryRepositoryTest extends IntegrationTestSupport {
         QuestionHistory q1 = QuestionHistory.of("question1", "answer1", now);
         QuestionHistory q2 = QuestionHistory.of("question2", "answer2", now.plusDays(1));
         QuestionHistory q3 = QuestionHistory.of("question3", "answer3", now.plusDays(2));
-        questionHistoryRepository.saveAll(List.of(q1, q2, q3));
+        questionRepository.saveAll(List.of(q1, q2, q3));
 
         // when
-        Page<QuestionHistory> pagedResults = questionHistoryRepository.getAllHistories(pageable);
+        Page<QuestionHistory> pagedResults = questionRepository.getAllHistories(pageable);
 
         // then
         long totalCount = pagedResults.getTotalElements();
