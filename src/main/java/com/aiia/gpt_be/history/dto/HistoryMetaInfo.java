@@ -13,16 +13,16 @@ public class HistoryMetaInfo {
 
     private Long id;
     private String title;
-    private LocalDateTime talkedTime;
+    private String talkedTime;
 
     @Builder
-    private HistoryMetaInfo(Long id, String title, LocalDateTime talkedTime) {
+    private HistoryMetaInfo(Long id, String title, String talkedTime) {
         this.id = id;
         this.title = title;
         this.talkedTime = talkedTime;
     }
 
-    public static HistoryMetaInfo of(Long id, String title, LocalDateTime talkedTime) {
+    public static HistoryMetaInfo of(Long id, String title, String talkedTime) {
         return HistoryMetaInfo.builder()
                 .id(id)
                 .title(title)
