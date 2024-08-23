@@ -17,7 +17,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class QuestionService {
 
     @Value("${flask.domain}")
@@ -25,7 +25,6 @@ public class QuestionService {
     private final RestClient restClient = RestClient.create();
     private final QuestionRepository questionRepository;
 
-    @Transactional
     public QuestionReplyToUser answer(QuestionServiceRequest request, LocalDateTime now) {
         QuestionHistory questionHistory = QuestionHistory.of(request.getQuestion(), getAnswerFromGPT(request), now);
         QuestionHistory savedQuestionHistory = questionRepository.save(questionHistory);
