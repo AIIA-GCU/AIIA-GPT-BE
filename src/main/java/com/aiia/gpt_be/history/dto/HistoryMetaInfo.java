@@ -5,27 +5,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class HistoryMetaInfo {
 
     private Long id;
-    private String title;
+    private String question;
     private String talkedTime;
 
     @Builder
-    private HistoryMetaInfo(Long id, String title, String talkedTime) {
+    private HistoryMetaInfo(Long id, String question, String talkedTime) {
         this.id = id;
-        this.title = title;
+        this.question = question;
         this.talkedTime = talkedTime;
     }
 
-    public static HistoryMetaInfo of(Long id, String title, String talkedTime) {
+    public static HistoryMetaInfo of(Long id, String question, String talkedTime) {
         return HistoryMetaInfo.builder()
                 .id(id)
-                .title(title)
+                .question(question)
                 .talkedTime(talkedTime)
                 .build();
     }
