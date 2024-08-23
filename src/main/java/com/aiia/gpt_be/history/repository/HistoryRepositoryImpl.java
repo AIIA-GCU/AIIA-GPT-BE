@@ -15,10 +15,11 @@ import java.util.List;
 public class HistoryRepositoryImpl implements HistoryRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
-    private final QQuestionHistory q;
 
     @Override
     public Page<QuestionHistory> getAllHistories(Pageable pageable) {
+        QQuestionHistory q = new QQuestionHistory("q");
+
         List<QuestionHistory> content = queryFactory.selectFrom(q)
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
