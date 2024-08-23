@@ -2,7 +2,7 @@ package com.aiia.gpt_be.question;
 
 
 import com.aiia.gpt_be.api.BaseEntity;
-import com.aiia.gpt_be.question.dto.QuestionReply;
+import com.aiia.gpt_be.question.dto.QuestionReplyToUser;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -43,7 +43,7 @@ public class QuestionHistory extends BaseEntity {
                 .build();
     }
 
-    public QuestionReply toReply(){
-        return QuestionReply.of(question, answer);
+    public QuestionReplyToUser toReply(){
+        return QuestionReplyToUser.of(question, answer);
     }
 }

@@ -6,18 +6,18 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public class QuestionReply {
+public class QuestionReplyToUser {
     private String question;
     private String answer;
 
     @Builder
-    private QuestionReply(String question, String answer) {
+    private QuestionReplyToUser(String question, String answer) {
         this.question = question;
         this.answer = answer;
     }
 
-    public static QuestionReply of(String question, String answer){
-        return QuestionReply.builder()
+    public static QuestionReplyToUser of(String question, String answer){
+        return QuestionReplyToUser.builder()
                 .question(question)
                 .answer(answer)
                 .build();
