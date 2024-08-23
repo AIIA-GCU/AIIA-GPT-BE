@@ -31,7 +31,8 @@ public class QuestionHistory extends BaseEntity {
     private LocalDateTime talkedTime;
 
     @Builder
-    private QuestionHistory(String question, String answer, LocalDateTime talkedTime) {
+    private QuestionHistory(Long id, String question, String answer, LocalDateTime talkedTime) {
+        this.id = id;
         this.question = question;
         this.answer = answer;
         this.talkedTime = talkedTime;
@@ -53,6 +54,6 @@ public class QuestionHistory extends BaseEntity {
         return HistoryMetaInfo.of(
                 id,
                 question,
-                talkedTime.format(DateTimeFormatter.ofPattern("yyyy-mm-dd HH:mm")));
+                talkedTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
     }
 }
