@@ -40,6 +40,8 @@ class HistoryServiceTest extends IntegrationTestSupport {
 
         QuestionHistory q1 = QuestionHistory.of("q1", "a1", now);
         QuestionHistory q2 = QuestionHistory.of("q2", "a2", now.plusDays(1));
+
+        // q3, q4 will be returned
         QuestionHistory q3 = QuestionHistory.of("q3", "a3", now.plusDays(2));
         QuestionHistory q4 = QuestionHistory.of("q4", "a4", now.plusDays(3));
 
@@ -66,8 +68,9 @@ class HistoryServiceTest extends IntegrationTestSupport {
     void getAllHistories_withSmallerHistorySize() {
         // given
         LocalDateTime now = LocalDateTime.of(2024, 8, 23, 14, 0, 0);
-        Pageable pageable = PageRequest.of(1, 2);
+        Pageable pageable = PageRequest.of(0, 5);
 
+        // All histories will be returned
         QuestionHistory q1 = QuestionHistory.of("q1", "a1", now);
         QuestionHistory q2 = QuestionHistory.of("q2", "a2", now.plusDays(1));
         QuestionHistory q3 = QuestionHistory.of("q3", "a3", now.plusDays(2));
@@ -93,15 +96,20 @@ class HistoryServiceTest extends IntegrationTestSupport {
                 );
     }
 
-    @DisplayName("질문 기록이 하나도 없을 경우, 사용자에게 이에 대해 전달할 수 있다.")
+    @DisplayName("질문 기록이 하나도 없을 경우, 빈 페이지가 전달된다.")
     @Test
     void getAllHistories_withoutHistories() {
         // given
         Pageable pageable = PageRequest.of(1, 2);
 
-        // when // then
-        assertThatThrownBy(() -> historyService.getAllHistories(pageable))
-                .isInstanceOf(IllegalArgumentException.class)
-                .hasMessage("사용자에게서의 질문이 아직 없습니다!");
+        // when
+        Page<HistoryMetaInfo> pagedResults = historyService.getAllHistories(pageable);
+
+        // then
+        long totalCount = pagedResults.getTotalElements();
+        List<HistoryMetaInfo> results = pagedResults.getContent();
+
+        assertThat(totalCount).isZero();
+        assertThat(results).isEmpty();
     }
 }
