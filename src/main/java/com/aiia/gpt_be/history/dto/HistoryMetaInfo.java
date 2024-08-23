@@ -1,4 +1,4 @@
-package com.aiia.gpt_be.question.dto;
+package com.aiia.gpt_be.history.dto;
 
 import lombok.AccessLevel;
 import lombok.Builder;
