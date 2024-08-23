@@ -1,6 +1,5 @@
 package com.aiia.gpt_be.config;
 
-import com.aiia.gpt_be.question.QQuestionHistory;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,10 +15,5 @@ public class QuerydslConfig {
     @Bean
     public JPAQueryFactory jpaQueryFactory() {
         return new JPAQueryFactory(em);
-    }
-
-    @Bean
-    public QQuestionHistory qQuestionHistory() {
-        return new QQuestionHistory("q");
     }
 }
