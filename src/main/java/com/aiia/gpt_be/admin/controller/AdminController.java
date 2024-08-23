@@ -5,6 +5,7 @@ import com.aiia.gpt_be.admin.dto.AdminLoginRequest;
 import com.aiia.gpt_be.admin.service.AdminService;
 import com.aiia.gpt_be.admin.AdminSessionManager;
 import com.aiia.gpt_be.admin.dto.AdminJoinRequest;
+import com.aiia.gpt_be.history.service.HistoryService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -37,9 +38,13 @@ public class AdminController {
     }
 
     @GetMapping("/main")
-    public String mainPage(){
-        return "admin/main";
+    public String mainPage(HttpServletRequest request) {
+        if(adminSessionManager.checkAdminLogin(request)) {
+            return "admin/main";
+        }
+        return "error/400";
     }
+
 
     @PostMapping("/join")
     public String join(@Valid @ModelAttribute AdminJoinRequest joinRequest) {
