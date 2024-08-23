@@ -1,4 +1,4 @@
-package com.aiia.gpt_be.question.repository;
+package com.aiia.gpt_be.history.repository;
 
 import com.aiia.gpt_be.question.QQuestionHistory;
 import com.aiia.gpt_be.question.QuestionHistory;
@@ -12,7 +12,7 @@ import org.springframework.data.support.PageableExecutionUtils;
 import java.util.List;
 
 @RequiredArgsConstructor
-public class QuestionHistoryRepositoryImpl implements QuestionHistoryRepositoryCustom {
+public class HistoryRepositoryImpl implements HistoryRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
     private final QQuestionHistory q;
