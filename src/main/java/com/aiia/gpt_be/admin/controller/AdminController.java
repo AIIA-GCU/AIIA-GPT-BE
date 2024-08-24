@@ -45,12 +45,19 @@ public class AdminController {
     }
 
     @GetMapping("/main")
-    public String mainPage(@PageableDefault(page = 0, size = 10) Pageable pageable, Model model) {
+    public String mainPage(@PageableDefault(page = 0, size = 5) Pageable pageable, Model model) {
         Page<HistoryMetaInfo> histories = historyService.getAllHistories(pageable);
 
-        int blockLimit = 3;
-        int startPage = (((int) Math.ceil(((double) pageable.getPageNumber() / blockLimit))) - 1) * blockLimit + 1;
-        int endPage = Math.min((startPage + blockLimit - 1), histories.getTotalPages());
+        int blockLimit = 1;
+        int startPage = 0;
+
+        if(pageable.getPageNumber() == 0) {
+            startPage = 0;
+        }
+
+        else startPage = pageable.getPageNumber() - blockLimit;
+
+        int endPage = pageable.getPageNumber() + blockLimit;
 
         model.addAttribute("histories", histories);
         model.addAttribute("startPage", startPage);
