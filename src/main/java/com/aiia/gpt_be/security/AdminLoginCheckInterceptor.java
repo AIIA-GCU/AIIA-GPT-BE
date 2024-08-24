@@ -3,12 +3,12 @@ package com.aiia.gpt_be.security;
 import com.aiia.gpt_be.admin.AdminSessionManager;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
 import org.springframework.web.servlet.HandlerInterceptor;
 
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AdminLoginCheckInterceptor implements HandlerInterceptor {
-    private final AdminSessionManager adminSessionManager;
+    private AdminSessionManager adminSessionManager;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
