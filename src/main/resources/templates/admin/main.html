@@ -1,10 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko-kr">
 <head>
     <meta charset="UTF-8">
     <title>GPT-ADMIN-MAIN</title>
 </head>
 <body>
+<h1>GPT 관리자 페이지</h1>
+<div>
+    <table>
+        <tr>
+            <th>게시글 번호</th>
+            <th>제목</th>
+            <th>작성 시간</th>
+        </tr>
 
+        <tr th:each="history: ${histories}">
+            <td th:text="${history.id}"></td>
+            <td><a th:href="@{/history/{id}(id = ${history.id})}" th:text="${history.question}"/></td>
+            <td th:text="${history.talkedTime}"></td>
+        </tr>
+    </table>
+
+    <!-- 첫 페이지로 이동 -->
+    <a th:href="@{/admin/main(page=0)}">첫 페이지 </a>
+
+    <!-- 이전 페이지 이동 (# 붙을 시 이동하지 않음) -->
+<!--    <a th:href="${histories.first} ? '#' : @{/admin/main(page=${histories.number - 1})}"> 이전 페이지 </a>-->
+
+    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
+        <span th:if="${page < histories.totalPages}">
+           <a th:href="@{/admin/main(page=${page})}" th:text="${page+1}"></a>
+        </span>
+    </span>
+
+    <!-- 다음 페이지 이동 (# 붙을 시 이동하지 않음) -->
+<!--    <a th:href="${histories.last} ? '#' : @{/admin/main(page=${histories.number + 1})}"> 다음 페이지</a>-->
+
+    <!-- 마지막 페이지로 이동 -->
+    <a th:href="@{/admin/main(page=${histories.totalPages - 1})}"> 마지막 페이지</a>
+</div>
+</div>
 </body>
 </html>
