@@ -87,4 +87,17 @@ class AdminSessionManagerTest {
         // then
         assertThat(result).isTrue();
     }
+
+    @DisplayName("관리자가 로그인하지 않았는지 확인할 수 있다.")
+    @Test
+    void checkAdminNotLogin() {
+        // given
+        given(httpSession.getAttribute(ADMIN_SESSION_KEY)).willReturn(null);
+
+        // when
+        boolean result = adminSessionManager.checkAdminNotLogin(servletRequest);
+
+        // then
+        assertThat(result).isTrue();
+    }
 }
