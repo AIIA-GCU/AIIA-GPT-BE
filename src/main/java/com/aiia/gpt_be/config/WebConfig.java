@@ -2,6 +2,7 @@ package com.aiia.gpt_be.config;
 
 import com.aiia.gpt_be.admin.AdminSessionManager;
 import com.aiia.gpt_be.security.AdminLoginCheckInterceptor;
+import com.aiia.gpt_be.security.ClientIpHandler;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -18,9 +19,9 @@ public class WebConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new AdminLoginCheckInterceptor(new AdminSessionManager()))
+        registry.addInterceptor(new AdminLoginCheckInterceptor(new AdminSessionManager(), new ClientIpHandler()))
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/admin", "/admin/", "/admin/login", "/ask");
+                .excludePathPatterns("/admin", "/admin/", "/admin/login", "/ask", "/error/*");
     }
 }
