@@ -96,9 +96,8 @@ class AdminControllerTest extends ControllerTestSupport {
                         .param("password", "password")
                         .contentType(APPLICATION_FORM_URLENCODED))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(view().name("error/400"))
-                .andExpect(model().attribute("errorMessage", "로그인 시 ID는 필수입니다!"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error/400"));
     }
 
     @DisplayName("로그인 시 비밀번호는 필수이다.")
@@ -111,9 +110,8 @@ class AdminControllerTest extends ControllerTestSupport {
                         .param("userId", "userId")
                         .contentType(APPLICATION_FORM_URLENCODED))
                 .andDo(print())
-                .andExpect(status().isBadRequest())
-                .andExpect(view().name("error/400"))
-                .andExpect(model().attribute("errorMessage", "로그인 시 비밀번호는 필수입니다!"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error/400"));
     }
 
     @DisplayName("메인 페이지로 접속할 수 있다.")
