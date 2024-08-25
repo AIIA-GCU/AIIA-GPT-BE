@@ -3,6 +3,7 @@ package com.aiia.gpt_be;
 import com.aiia.gpt_be.admin.AdminSessionManager;
 import com.aiia.gpt_be.admin.controller.AdminController;
 import com.aiia.gpt_be.admin.service.AdminService;
+import com.aiia.gpt_be.history.service.HistoryService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -23,6 +24,9 @@ public abstract class ControllerTestSupport {
 
     @MockBean
     protected AdminService adminService;
+
+    @MockBean
+    protected HistoryService historyService;
 
     @MockBean
     protected AdminSessionManager adminSessionManager;
