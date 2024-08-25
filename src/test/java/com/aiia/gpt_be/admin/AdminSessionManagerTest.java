@@ -1,6 +1,7 @@
 package com.aiia.gpt_be.admin;
 
 import com.aiia.gpt_be.IntegrationTestSupport;
+import com.aiia.gpt_be.MockTestSupport;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.junit.jupiter.api.BeforeEach;
@@ -16,18 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.*;
 
-@ExtendWith(MockitoExtension.class)
-class AdminSessionManagerTest {
-
-    @Mock
-    HttpServletRequest servletRequest;
-    @Mock
-    HttpSession httpSession;
-
-    @InjectMocks
-    AdminSessionManager adminSessionManager;
-
-    private static final String ADMIN_SESSION_KEY = "ADMIN";
+class AdminSessionManagerTest extends MockTestSupport {
 
     @BeforeEach
     void setUp() {
