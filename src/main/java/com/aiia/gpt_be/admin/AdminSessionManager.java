@@ -24,4 +24,8 @@ public class AdminSessionManager {
     public boolean checkAdminLogin(HttpServletRequest servletRequest){
         return extractAdminFromSession(servletRequest).isPresent();
     }
+
+    public boolean checkAdminNotLogin(HttpServletRequest servletRequest){
+        return extractAdminFromSession(servletRequest).isEmpty();
+    }
 }
