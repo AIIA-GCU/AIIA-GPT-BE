@@ -1,6 +1,7 @@
 package com.aiia.gpt_be.api;
 
 import com.aiia.gpt_be.admin.controller.AdminController;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.ui.Model;
@@ -9,6 +10,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Slf4j
@@ -17,32 +19,40 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 })
 public class AdminControllerAdvice {
 
+    // Extracting error message will happen at here,
+    // and returning view to browser will happen at ErrorPageController
+
     private static final String ERROR_MESSAGE = "errorMessage";
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
-    public String bindExHandler(BindException e, Model model) {
+    public String bindExHandler(BindException e, RedirectAttributes redirectAttributes) {
         ObjectError objectError = e.getBindingResult().getAllErrors().get(0);
         String errorMessage = objectError.getDefaultMessage();
 
         log.info(errorMessage);
-        model.addAttribute(ERROR_MESSAGE, errorMessage);
-        return "error/400";
+
+        redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
+        return "redirect:/error/400";
     }
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(IllegalArgumentException.class)
-    public String illegalArgumentExHandler(Exception e, Model model) {
-        log.info(e.getMessage());
-        model.addAttribute(ERROR_MESSAGE, e.getMessage());
-        return "error/400";
+    public String illegalArgumentExHandler(Exception e, RedirectAttributes redirectAttributes) {
+        String errorMessage = e.getMessage();
+
+        log.info(errorMessage);
+
+        redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
+        return "redirect:/error/400";
     }
 
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public String unExpectedExHandler(Exception e, Model model) {
-        log.error(e.getMessage());
-        model.addAttribute(ERROR_MESSAGE, e.getMessage());
-        return "error/500";
+    public String unExpectedExHandler(Exception e, RedirectAttributes redirectAttributes) {
+        String errorMessage = e.getMessage();
+
+        log.error(errorMessage);
+        e.printStackTrace();
+
+        redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
+        return "redirect:/error/500";
     }
 }
