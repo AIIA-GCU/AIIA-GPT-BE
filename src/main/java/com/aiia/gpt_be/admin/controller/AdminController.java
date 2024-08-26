@@ -7,6 +7,7 @@ import com.aiia.gpt_be.admin.AdminSessionManager;
 import com.aiia.gpt_be.admin.dto.AdminJoinRequest;
 import com.aiia.gpt_be.history.dto.HistoryMetaInfo;
 import com.aiia.gpt_be.history.service.HistoryService;
+import com.aiia.gpt_be.history.vo.PageIndex;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -49,19 +50,10 @@ public class AdminController {
         Page<HistoryMetaInfo> histories = historyService.getAllHistories(pageable);
 
         int blockLimit = 1;
-        int startPage = 0;
-
-        if(pageable.getPageNumber() == 0) {
-            startPage = 0;
-        }
-
-        else startPage = pageable.getPageNumber() - blockLimit;
-
-        int endPage = pageable.getPageNumber() + blockLimit;
+        PageIndex pageIndex = new PageIndex(histories, pageable, blockLimit);
 
         model.addAttribute("histories", histories);
-        model.addAttribute("startPage", startPage);
-        model.addAttribute("endPage", endPage);
+        model.addAttribute("pageIndex", pageIndex);
 
         return "admin/main";
     }
