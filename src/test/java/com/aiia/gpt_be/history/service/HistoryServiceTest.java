@@ -1,6 +1,8 @@
 package com.aiia.gpt_be.history.service;
 
 import com.aiia.gpt_be.IntegrationTestSupport;
+import com.aiia.gpt_be.history.dto.HistoryInfo;
+import com.aiia.gpt_be.history.dto.HistoryInfoRequest;
 import com.aiia.gpt_be.history.dto.HistoryMetaInfo;
 import com.aiia.gpt_be.history.repository.HistoryRepository;
 import com.aiia.gpt_be.question.QuestionHistory;
@@ -31,7 +33,7 @@ class HistoryServiceTest extends IntegrationTestSupport {
         historyRepository.deleteAllInBatch();
     }
 
-    @DisplayName("질문 기록을 가져올 수 있다.")
+    @DisplayName("질문 기록을 페이징해 가져올 수 있다.")
     @Test
     void getAllHistories_green() {
         // given
@@ -111,5 +113,41 @@ class HistoryServiceTest extends IntegrationTestSupport {
 
         assertThat(totalCount).isZero();
         assertThat(results).isEmpty();
+    }
+
+    @DisplayName("질문 기록을 가져올 수 있다.")
+    @Test
+    void getHistory_green() {
+        // given
+        LocalDateTime now = LocalDateTime.of(2024, 8, 23, 14, 0, 0);
+
+        QuestionHistory q1 = QuestionHistory.of("q1", "a1", now);
+        QuestionHistory q2 = QuestionHistory.of("q2", "a2", now.plusDays(1));
+        QuestionHistory q3 = QuestionHistory.of("q3", "a3", now.plusDays(2));
+        QuestionHistory q4 = QuestionHistory.of("q4", "a4", now.plusDays(3));
+
+        List<QuestionHistory> histories = historyRepository.saveAll(List.of(q1, q2, q3, q4));
+        QuestionHistory history = histories.get(0);
+
+        HistoryInfoRequest request = new HistoryInfoRequest(history.getId());
+
+        // when
+        HistoryInfo result = historyService.getHistory(request);
+
+        // then
+        assertThat(result).extracting("question", "answer", "talkedTime")
+                .containsExactly("q1", "a1", "2024-08-23 14:00");
+    }
+
+    @DisplayName("ID로 기록을 찾을 수 없다.")
+    @Test
+    void getHistory_withInvalidID() {
+        // given
+        HistoryInfoRequest request = new HistoryInfoRequest(1L);
+
+        // when // then
+        assertThatThrownBy(() -> historyService.getHistory(request))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("기록을 찾을 수 없습니다!");
     }
 }
