@@ -138,4 +138,61 @@ class AdminControllerTest extends ControllerTestSupport {
                 .andExpect(model().attributeExists("histories"))
                 .andExpect(model().attributeExists("pageIndex"));
     }
+
+    @DisplayName("회원가입할 수 있다.")
+    @Test
+    void join() throws Exception{
+        // given
+        Admin admin = Admin.of("id", "password");
+        given(adminSessionManager.checkAdminNotLogin(any(HttpServletRequest.class)))
+                .willReturn(false);
+
+        // when // then
+        mockMvc.perform(post("/admin/join")
+                        .sessionAttr(ADMIN_SESSION_KEY, admin)
+                        .param("userId", "userId")
+                        .param("password", "password")
+                        .contentType(APPLICATION_FORM_URLENCODED))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/main"));
+    }
+
+    @DisplayName("회원가입 시 ID는 필요하다.")
+    @Test
+    void join_withoutUserId() throws Exception{
+        // given
+        Admin admin = Admin.of("id", "password");
+        given(adminSessionManager.checkAdminNotLogin(any(HttpServletRequest.class)))
+                .willReturn(false);
+
+        // when // then
+        mockMvc.perform(post("/admin/join")
+                        .sessionAttr(ADMIN_SESSION_KEY, admin)
+                        .param("password", "password")
+                        .contentType(APPLICATION_FORM_URLENCODED))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error/400"))
+                .andExpect(flash().attribute(ERROR_MESSAGE, "ID는 필수입니다!"));
+    }
+
+    @DisplayName("회원가입 시 비밀번호는 필요하다.")
+    @Test
+    void join_withoutPassword() throws Exception{
+        // given
+        Admin admin = Admin.of("id", "password");
+        given(adminSessionManager.checkAdminNotLogin(any(HttpServletRequest.class)))
+                .willReturn(false);
+
+        // when // then
+        mockMvc.perform(post("/admin/join")
+                        .sessionAttr(ADMIN_SESSION_KEY, admin)
+                        .param("userId", "userId")
+                        .contentType(APPLICATION_FORM_URLENCODED))
+                .andDo(print())
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/error/400"))
+                .andExpect(flash().attribute(ERROR_MESSAGE, "비밀번호는 필수입니다!"));
+    }
 }
