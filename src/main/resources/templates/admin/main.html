@@ -27,10 +27,8 @@
     <!-- 이전 페이지 이동 (# 붙을 시 이동하지 않음) -->
 <!--    <a th:href="${histories.first} ? '#' : @{/admin/main(page=${histories.number - 1})}"> 이전 페이지 </a>-->
 
-    <span th:each="page: ${#numbers.sequence(startPage, endPage)}">
-        <span th:if="${page < histories.totalPages}">
+    <span th:each="page: ${#numbers.sequence(pageIndex.getStartPageNumber, pageIndex.getEndPageNumber)}">
            <a th:href="@{/admin/main(page=${page})}" th:text="${page+1}"></a>
-        </span>
     </span>
 
     <!-- 다음 페이지 이동 (# 붙을 시 이동하지 않음) -->
