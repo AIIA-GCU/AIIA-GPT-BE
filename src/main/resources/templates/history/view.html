@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <span th:text="${history.talkedTime}"/>
+    <h1 th:text="${history.question}"/>
+    <p th:utext="${#strings.replace(history.answer, '\n', '<br/>')}"/>
+</body>
+</html>
