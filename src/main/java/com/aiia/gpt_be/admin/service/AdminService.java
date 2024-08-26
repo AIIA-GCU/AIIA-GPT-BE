@@ -34,6 +34,11 @@ public class AdminService {
 
     @Transactional
     public Admin join(AdminJoinRequest joinRequest) {
+        adminRepository.findByUserId(joinRequest.getUserId())
+                .ifPresent(existingAdmin -> {
+                    throw new IllegalArgumentException("이 ID는 이미 사용중입니다! 다른 ID를 입력해주세요!");
+                });
+
         Admin newAdmin = Admin.of(joinRequest.getUserId(), passwordEncoder.encrypt(joinRequest.getPassword()));
         return adminRepository.save(newAdmin);
     }
