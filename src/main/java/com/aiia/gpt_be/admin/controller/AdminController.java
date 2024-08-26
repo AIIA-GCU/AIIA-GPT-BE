@@ -62,6 +62,6 @@ public class AdminController {
     @PostMapping("/join")
     public String join(@Valid @ModelAttribute AdminJoinRequest joinRequest) {
         adminService.join(joinRequest);
-        return "redirect:/";
+        return "redirect:/admin/main";
     }
 }
