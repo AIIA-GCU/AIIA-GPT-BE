@@ -136,7 +136,6 @@ class AdminControllerTest extends ControllerTestSupport {
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/main"))
                 .andExpect(model().attributeExists("histories"))
-                .andExpect(model().attributeExists("startPage"))
-                .andExpect(model().attributeExists("endPage"));
+                .andExpect(model().attributeExists("pageIndex"));
     }
 }
