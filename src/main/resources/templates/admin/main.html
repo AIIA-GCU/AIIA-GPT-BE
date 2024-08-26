@@ -35,7 +35,8 @@
 <!--    <a th:href="${histories.last} ? '#' : @{/admin/main(page=${histories.number + 1})}"> 다음 페이지</a>-->
 
     <!-- 마지막 페이지로 이동 -->
-    <a th:href="@{/admin/main(page=${histories.totalPages - 1})}"> 마지막 페이지</a>
+    <a th:href="@{/admin/main(page=0)}" th:if="${histories.totalPages == 0}">마지막 페이지</a>
+    <a th:href="@{/admin/main(page=${histories.totalPages - 1})}" th:if="${histories.totalPages != 0}">마지막 페이지</a>
 </div>
 
 <form method="post" th:action="@{/admin/join}" >
