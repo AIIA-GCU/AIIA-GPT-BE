@@ -2,6 +2,7 @@ package com.aiia.gpt_be.admin.service;
 
 import com.aiia.gpt_be.IntegrationTestSupport;
 import com.aiia.gpt_be.admin.Admin;
+import com.aiia.gpt_be.admin.dto.AdminJoinRequest;
 import com.aiia.gpt_be.admin.dto.AdminLoginRequest;
 import com.aiia.gpt_be.admin.repository.AdminRepository;
 import com.aiia.gpt_be.security.PasswordEncoder;
@@ -80,5 +81,37 @@ class AdminServiceTest extends IntegrationTestSupport {
         assertThatThrownBy(() -> adminService.login(request))
                 .isInstanceOf(IllegalArgumentException.class)
                 .hasMessage("ID 또는 비밀번호가 잘못되었습니다!");
+    }
+
+    @DisplayName("회원가입할 수 있다.")
+    @Test
+    void join_green() {
+        // given
+        AdminJoinRequest joinRequest = AdminJoinRequest.of("userId", "password");
+
+        // when
+        Admin result = adminService.join(joinRequest);
+
+        // then
+        String encryptedPassword = passwordEncoder.encrypt("password");
+        assertThat(result).extracting("userId", "password")
+                .containsExactly("userId", encryptedPassword);
+    }
+
+    @DisplayName("이미 ID를 사용중일 경우, 회원가입할 수 없다.")
+    @Test
+    void join_duplicateUserId() {
+        // given
+        AdminJoinRequest joinRequest = AdminJoinRequest.of("user1", "password");
+
+        Admin a1 = Admin.of("user1", passwordEncoder.encrypt("p1"));
+        Admin a2 = Admin.of("user2", passwordEncoder.encrypt("p2"));
+        Admin a3 = Admin.of("user3", passwordEncoder.encrypt("p3"));
+        adminRepository.saveAll(List.of(a1, a2, a3));
+
+        // when // then
+        assertThatThrownBy(() -> adminService.join(joinRequest))
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessage("이 ID는 이미 사용중입니다! 다른 ID를 입력해주세요!");
     }
 }
