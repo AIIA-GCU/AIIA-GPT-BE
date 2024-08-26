@@ -1,21 +1,21 @@
 package com.aiia.gpt_be.api;
 
 import com.aiia.gpt_be.admin.controller.AdminController;
-import jakarta.servlet.http.HttpServletResponse;
+import com.aiia.gpt_be.history.controller.HistoryController;
+import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 @Slf4j
 @ControllerAdvice(assignableTypes = {
-        AdminController.class
+        AdminController.class,
+        HistoryController.class
 })
 public class AdminControllerAdvice {
 
@@ -23,6 +23,7 @@ public class AdminControllerAdvice {
     // and returning view to browser will happen at ErrorPageController
 
     private static final String ERROR_MESSAGE = "errorMessage";
+    private static final String BAD_REQUEST_PAGE = "redirect:/error/400";
 
     @ExceptionHandler(BindException.class)
     public String bindExHandler(BindException e, RedirectAttributes redirectAttributes) {
@@ -32,17 +33,32 @@ public class AdminControllerAdvice {
         log.info(errorMessage);
 
         redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
-        return "redirect:/error/400";
+        return BAD_REQUEST_PAGE;
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public String illegalArgumentExHandler(Exception e, RedirectAttributes redirectAttributes) {
+    // ConstraintViolationEx : @PathVariable의 @Positive에서 -1, 0 등 값이 올 경우
+    @ExceptionHandler({IllegalArgumentException.class, ConstraintViolationException.class})
+    public String invalidInputFromUserHandler(Exception e, RedirectAttributes redirectAttributes) {
         String errorMessage = e.getMessage();
 
         log.info(errorMessage);
 
         redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
-        return "redirect:/error/400";
+        return BAD_REQUEST_PAGE;
+    }
+
+
+
+
+    // Long에 String 등 잘못된 type가 올 경우
+    @ExceptionHandler({MethodArgumentTypeMismatchException.class})
+    public String methodArgumentTypeMismatchExHandler(Exception e, RedirectAttributes redirectAttributes) {
+        String errorMessage = "잘못된 값입니다!";
+
+        log.info(errorMessage);
+
+        redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
+        return BAD_REQUEST_PAGE;
     }
 
     @ExceptionHandler(Exception.class)
