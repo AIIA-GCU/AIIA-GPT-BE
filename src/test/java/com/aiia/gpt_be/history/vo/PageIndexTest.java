@@ -43,7 +43,6 @@ class PageIndexTest {
                         "3, 21, 2, 4",
                         "4, 21, 3, 4"
     })
-
     @ParameterizedTest(name = "currentPageNumber = {0}, totalPageCount = {1}, startPageNumber = {2}, endPageNumber = {3}")
     void pageIndex(int currentPageNumber, int totalPageCount, int startPageNumber, int endPageNumber) {
 
@@ -62,5 +61,28 @@ class PageIndexTest {
         // then
         assertThat(pageIndex.getStartPageNumber()).isEqualTo(startPageNumber);
         assertThat(pageIndex.getEndPageNumber()).isEqualTo(endPageNumber);
+    }
+
+    @DisplayName("페이징한 내용이 아무것도 없을 수 있다.")
+    @Test
+    void pageIndex_AllPagesAreEmpty(){
+        // given
+        int pageSize = 5;
+        int blockLimit = 1;
+
+        int currentPageNumber = 0;
+        int totalPageCount = 0;
+
+        Pageable pageable = PageRequest.of(currentPageNumber, pageSize);
+
+        Page<HistoryMetaInfo> pages = new PageImpl<>(List.of(HistoryMetaInfo.builder().build()),
+                pageable, totalPageCount);
+
+        // when
+        PageIndex pageIndex = new PageIndex(pages, pageable, blockLimit);
+
+        // then
+        assertThat(pageIndex.getStartPageNumber()).isZero();
+        assertThat(pageIndex.getEndPageNumber()).isZero();
     }
 }
