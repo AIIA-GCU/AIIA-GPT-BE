@@ -3,7 +3,9 @@ package com.aiia.gpt_be.config;
 import com.aiia.gpt_be.admin.AdminSessionManager;
 import com.aiia.gpt_be.security.AdminLoginCheckInterceptor;
 import com.aiia.gpt_be.security.ClientIpHandler;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -18,7 +20,6 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedMethods("GET", "HEAD", "POST", "PUT", "DELETE", "PATCH");
     }
 
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
 
@@ -27,5 +28,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .order(1)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/admin", "/admin/", "/admin/login", "/ask", "/error/**", "/favicon.ico");
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        return new MethodValidationPostProcessor();
     }
 }
