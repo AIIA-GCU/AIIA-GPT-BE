@@ -2,6 +2,7 @@ package com.aiia.gpt_be.question;
 
 
 import com.aiia.gpt_be.api.BaseEntity;
+import com.aiia.gpt_be.history.dto.HistoryInfo;
 import com.aiia.gpt_be.history.dto.HistoryMetaInfo;
 import com.aiia.gpt_be.question.dto.QuestionReplyToUser;
 import jakarta.persistence.*;
@@ -55,5 +56,13 @@ public class QuestionHistory extends BaseEntity {
                 id,
                 question,
                 talkedTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+    }
+
+    public HistoryInfo toHistoryInfo() {
+        return HistoryInfo.of(
+                question,
+                answer,
+                talkedTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"))
+        );
     }
 }
