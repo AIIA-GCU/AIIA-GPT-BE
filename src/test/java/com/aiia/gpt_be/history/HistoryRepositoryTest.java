@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -56,7 +57,7 @@ class HistoryRepositoryTest extends IntegrationTestSupport {
 
     @DisplayName("질문 기록의 양이 페이지 사이즈보다 작을 경우, 전체 데이터를 가져올 수 있다.")
     @Test
-    void getAllHistories_withSmallerHistorySize(){
+    void getAllHistories_withSmallerHistorySize() {
         // given
         Pageable pageable = PageRequest.of(0, 5);
         LocalDateTime now = LocalDateTime.of(2024, 8, 23, 0, 0, 0);
@@ -81,5 +82,40 @@ class HistoryRepositoryTest extends IntegrationTestSupport {
                         tuple("question2", now.plusDays(1)),
                         tuple("question3", now.plusDays(2))
                 );
+    }
+
+    @DisplayName("ID로 질문 기록을 가져올 수 있다.")
+    @Test
+    void findById_green() {
+        // given
+        LocalDateTime now = LocalDateTime.of(2024, 8, 23, 0, 0, 0);
+
+        QuestionHistory q1 = QuestionHistory.of("question1", "answer1", now);
+        QuestionHistory q2 = QuestionHistory.of("question2", "answer2", now.plusDays(1));
+        QuestionHistory q3 = QuestionHistory.of("question3", "answer3", now.plusDays(2));
+
+        List<QuestionHistory> histories = historyRepository.saveAll(List.of(q1, q2, q3));
+        QuestionHistory history = histories.get(0);
+
+        // when
+        Optional<QuestionHistory> result = historyRepository.findById(history.getId());
+
+        // then
+        assertThat(result).isPresent();
+        assertThat(result.get())
+                .extracting("id", "question", "answer", "talkedTime")
+                .containsExactly(history.getId(), "question1", "answer1", now);
+    }
+
+    @DisplayName("질문 기록을 찾을 수 없을 경우, 빈 객체가 반환된다")
+    @Test
+    void findById_withoutData() {
+        // given
+
+        // when
+        Optional<QuestionHistory> result = historyRepository.findById(1L);
+
+        // then
+        assertThat(result).isEmpty();
     }
 }
