@@ -17,7 +17,7 @@ public class AdminJoinRequest {
     private String password;
 
     @Builder
-    private AdminJoinRequest(String userId, String password) {
+    public AdminJoinRequest(String userId, String password) {
         this.userId = userId;
         this.password = password;
     }
