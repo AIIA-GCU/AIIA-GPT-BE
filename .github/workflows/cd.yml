@@ -32,11 +32,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      ## gradle build
+      ## gradle build with test
       - name: Build with Gradle
         run: |
           chmod +x ./gradlew
-          ./gradlew build -x test
+          ./gradlew build
 
       ## docker build & push to production
       - name: Docker build & push to prod
