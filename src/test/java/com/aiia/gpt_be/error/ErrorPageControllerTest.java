@@ -23,7 +23,7 @@ class ErrorPageControllerTest extends ControllerTestSupport {
                         .flashAttr(ERROR_MESSAGE, "message"))
                 .andDo(print())
                 .andExpect(status().isBadRequest())
-                .andExpect(view().name("/error/400"))
+                .andExpect(view().name("error/400"))
                 .andExpect(model().attribute(ERROR_MESSAGE, "message"));
     }
 
@@ -37,7 +37,7 @@ class ErrorPageControllerTest extends ControllerTestSupport {
                         .flashAttr(ERROR_MESSAGE, "message"))
                 .andDo(print())
                 .andExpect(status().isUnauthorized())
-                .andExpect(view().name("/error/401"))
+                .andExpect(view().name("error/401"))
                 .andExpect(model().attribute(ERROR_MESSAGE, "message"));
     }
 
@@ -51,7 +51,7 @@ class ErrorPageControllerTest extends ControllerTestSupport {
                         .flashAttr(ERROR_MESSAGE, "message"))
                 .andDo(print())
                 .andExpect(status().isInternalServerError())
-                .andExpect(view().name("/error/500"))
+                .andExpect(view().name("error/500"))
                 .andExpect(model().attribute(ERROR_MESSAGE, "message"));
     }
 }
