@@ -17,13 +17,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
         AdminController.class,
         HistoryController.class
 })
-public class AdminControllerAdvice {
+public class AdminControllerPageAdvice {
 
     // Extracting error message will happen at here,
     // and returning view to browser will happen at ErrorPageController
 
     private static final String ERROR_MESSAGE = "errorMessage";
     private static final String BAD_REQUEST_PAGE = "redirect:/error/400";
+    private static final String INTERNAL_ERROR_PAGE = "redirect:/error/500";
 
     @ExceptionHandler(BindException.class)
     public String bindExHandler(BindException e, RedirectAttributes redirectAttributes) {
@@ -36,7 +37,7 @@ public class AdminControllerAdvice {
         return BAD_REQUEST_PAGE;
     }
 
-    // ConstraintViolationEx : @PathVariable의 @Positive에서 -1, 0 등 값이 올 경우
+    // ConstraintViolation : @PathVariable의 @Positive에서 -1, 0 등 값이 올 경우
     @ExceptionHandler({IllegalArgumentException.class, ConstraintViolationException.class})
     public String invalidInputFromUserHandler(Exception e, RedirectAttributes redirectAttributes) {
         String errorMessage = e.getMessage();
@@ -47,15 +48,13 @@ public class AdminControllerAdvice {
         return BAD_REQUEST_PAGE;
     }
 
-
-
-
     // Long에 String 등 잘못된 type가 올 경우
     @ExceptionHandler({MethodArgumentTypeMismatchException.class})
     public String methodArgumentTypeMismatchExHandler(Exception e, RedirectAttributes redirectAttributes) {
         String errorMessage = "잘못된 값입니다!";
 
         log.info(errorMessage);
+        e.printStackTrace();
 
         redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
         return BAD_REQUEST_PAGE;
@@ -69,6 +68,6 @@ public class AdminControllerAdvice {
         e.printStackTrace();
 
         redirectAttributes.addFlashAttribute(ERROR_MESSAGE, errorMessage);
-        return "redirect:/error/500";
+        return INTERNAL_ERROR_PAGE;
     }
 }
