@@ -39,7 +39,7 @@ class HistoryControllerTest extends ControllerTestSupport {
                         .sessionAttr(ADMIN_SESSION_KEY, admin))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(view().name("/history/view"))
+                .andExpect(view().name("history/view"))
                 .andExpect(model().attributeExists("history"));
     }
 
