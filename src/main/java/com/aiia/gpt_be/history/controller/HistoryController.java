@@ -25,6 +25,6 @@ public class HistoryController {
                              Model model){
         HistoryInfo history = historyService.getHistory(new HistoryInfoRequest(id));
         model.addAttribute("history", history);
-        return "/history/view";
+        return "history/view";
     }
 }
