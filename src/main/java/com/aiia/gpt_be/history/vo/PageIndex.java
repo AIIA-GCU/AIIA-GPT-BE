@@ -20,13 +20,13 @@ public class PageIndex {
 
     private int getStartPageNumber(int currentPageNumber, int totalPageCount, int blockLimit){
         if (doesTotalPageEmpty(totalPageCount) || doesInitialPage(currentPageNumber)) return 0;
-        else return currentPageNumber - blockLimit;
+        return currentPageNumber - blockLimit;
     }
 
     private int getEndPageNumber(int currentPageNumber, int totalPageCount, int blockLimit) {
         if (doesTotalPageEmpty(totalPageCount)) return 0;
         if (doesLastPage(currentPageNumber, totalPageCount)) return totalPageCount - blockLimit;
-        else return currentPageNumber + blockLimit;
+        return currentPageNumber + blockLimit;
     }
 
     private boolean doesTotalPageEmpty(int totalPageCount) {
