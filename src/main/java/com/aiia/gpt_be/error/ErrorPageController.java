@@ -21,7 +21,7 @@ public class ErrorPageController {
                                       Model model){
         response.setStatus(SC_BAD_REQUEST);
         model.addAttribute(ERROR_MESSAGE, errorMessage);
-        return "/error/400";
+        return "error/400";
     }
 
     @GetMapping("/401")
@@ -30,7 +30,7 @@ public class ErrorPageController {
                                         Model model){
         response.setStatus(SC_UNAUTHORIZED);
         model.addAttribute(ERROR_MESSAGE, errorMessage);
-        return "/error/401";
+        return "error/401";
     }
 
     @GetMapping("/500")
@@ -39,6 +39,6 @@ public class ErrorPageController {
                                           Model model){
         response.setStatus(SC_INTERNAL_SERVER_ERROR);
         model.addAttribute(ERROR_MESSAGE, errorMessage);
-        return "/error/500";
+        return "error/500";
     }
 }
