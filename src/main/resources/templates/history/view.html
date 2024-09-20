@@ -1,102 +1,85 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ko-kr">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>History Detail</title>
-        <style>
-            * {
-                box-sizing: border-box;
-                margin: 0;
-                padding: 0;
-                font-family: Arial, sans-serif;
-            }
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>History Detail</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
 
+        body {
+            background-color: #f5f5f5;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-y: auto; /* 스크롤 가능하게 */
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            width: 100%;
+            max-height: 100%; /* 화면 크기에 따라 높이 제한 */
+            overflow-y: auto; /* 내용이 많을 경우 스크롤 */
+        }
+
+        .time {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #4a90e2;
+            padding-bottom: 10px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.6;
+            white-space: pre-line;
+        }
+
+        @media (max-width: 768px) {
             body {
-                background-color: #f5f5f5;
-                padding: 20px;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                height: 100vh;
+                padding: 10px;
             }
 
             .container {
-                background-color: white;
-                padding: 30px;
-                border-radius: 8px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-                max-width: 600px;
-                width: 100%;
-                max-height: 90vh; /* 화면 크기에 따른 최대 높이 제한 */
-                overflow-y: auto; /* 내용이 많으면 스크롤 */
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-            }
-
-            .time {
-                font-size: 14px;
-                color: #666;
-                margin-bottom: 10px;
-                text-align: right;
+                padding: 20px;
+                max-width: 100%;
             }
 
             h1 {
-                font-size: 24px;
-                color: #333;
-                margin-bottom: 20px;
-                border-bottom: 2px solid #4a90e2;
-                padding-bottom: 10px;
+                font-size: 20px;
             }
 
-            .answer {
-                font-size: 16px;
-                color: #555;
-                line-height: 1.6;
-                white-space: pre-line;
-                overflow-wrap: break-word;
+            p {
+                font-size: 14px;
             }
-
-            .answer ul {
-                list-style-type: disc;
-                padding-left: 20px;
-            }
-
-            .answer ol {
-                list-style-type: decimal;
-                padding-left: 20px;
-            }
-
-            .answer code {
-                background-color: #f5f5f5;
-                padding: 2px 4px;
-                border-radius: 4px;
-            }
-
-            .answer pre {
-                background-color: #f5f5f5;
-                padding: 10px;
-                border-radius: 4px;
-                overflow-x: auto;
-            }
-        </style>
-        <!-- marked.js를 사용하여 마크다운 변환 -->
-        <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    </head>
-    <body>
-        <div class="container">
-            <div class="time" th:text="${history.talkedTime}"></div>
-            <h1 th:text="${history.question}"></h1>
-            <div class="answer" id="answer"></div>
-        </div>
-
-        <script>
-            // 서버에서 전달된 마크다운 데이터를 Thymeleaf에서 안전하게 출력
-            const answerMarkdown = /*[[${history.answer}]]*/ '<span th:utext="${history.answer}"></span>';
-
-            // marked.js로 마크다운을 HTML로 변환
-            document.getElementById("answer").innerHTML = marked(answerMarkdown);
-        </script>
-    </body>
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="time" th:text="${history.talkedTime}"></div>
+        <h1 th:text="${history.question}"></h1>
+        <p th:utext="${#strings.replace(history.answer, '\n', '<br/>')}"></p>
+    </div>
+</body>
 </html>
